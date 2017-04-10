@@ -1,0 +1,110 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+
+int data[] =  {2,7,5,8,9,4,1,8};
+
+int data2[] = {3,9,4,2,2,5,4,7};
+
+class Matrix{
+	
+	
+	vector< vector <int> > matrix;
+	
+	public:
+		
+	Matrix();
+		
+	Matrix(int r, int c){
+		
+		matrix.resize(r);
+		for(int i = 0 ; i < r ; i++){
+			matrix[i].resize(c);
+		}
+		
+	}
+	
+	Matrix(int r, int c, int *data){
+			
+			matrix.resize(r);
+			for(int i = 0 ; i < r ; i++){
+				matrix[i].resize(c);
+			}
+			
+			for(int i = 0 ; i < r ; i++){
+				
+				for(int j = 0 ; j < c ; j++){
+					
+					matrix[i][j] = data[i*c+j];
+					
+				}
+				
+			}
+			
+		}
+	
+	vector< vector <int> > getMatrix(){
+		return matrix;
+	}
+	
+	void operator+=(Matrix& m){
+		
+		for(int i = 0 ; i < m.getMatrix().size() ; i++){
+				
+				for(int j = 0 ; j < m.getMatrix()[i].size() ; j++){
+					
+					matrix[i][j] = matrix[i][j] + m.getMatrix()[i][j];
+					
+				}
+				
+			}
+		
+	}
+	
+	void operator*=(Matrix& m){
+		
+		for(int i = 0 ; i < m.getMatrix().size() ; i++){
+				
+				for(int j = 0 ; j < m.getMatrix()[i].size() ; j++){
+					
+					matrix[i][j] = matrix[i][j] * m.getMatrix()[j][i];
+					
+				}
+				
+			}
+		
+	}
+	
+	
+};
+
+ostream& operator<<(ostream& out, Matrix& mtrx){
+	
+
+	for(int i = 0 ; i < mtrx.getMatrix().size() ; i++){
+			for(int j = 0 ; j < mtrx.getMatrix()[i].size() ; j++){
+				out << mtrx.getMatrix()[i][j]<<"    ";
+			}
+			out << endl;
+		}
+		
+	return out;
+	
+}
+
+
+int main(int argc, char** argv) {
+	
+	Matrix myMatrix(4,2,data);
+	cout << myMatrix << endl;	
+
+	Matrix myMatrix2(4,2,data2);
+	cout << myMatrix2 << endl;
+	
+	myMatrix += myMatrix2;
+	cout << myMatrix << endl;
+	
+	return 0;
+}
