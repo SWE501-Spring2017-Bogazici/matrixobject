@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+template <class data>  class Matrix
+{
+
+public:
+	data MatrixObj1(int m, int n) {
+
+	}
+
+	data MatrixObj2(int m, int n, data*) {
+
+	}
+
+	Matrix<data> Matrix<data> :: operator()(int m, int n) {
+
+
+	}
+
+	Matrix<data> Matrix<data> :: operator+=(Matrix<data> A, Matrix<data> B) {
+		
+	}
+
+	Matrix<data> Matrix<data> :: operator*=(Matrix<data> A, Matrix<data> B) {
+		
+	}
+
+};
+
+
+
+template <class data> data Matrix<data> ::MatrixObj1(int m, int n) {
+	//return m*n;
+}
+
+template <class data> data Matrix<data> ::MatrixObj2(int m, int n, data*) {
+	
+}
+
+
+int main() 
+{
+
+}
