@@ -56,11 +56,12 @@ class Matrix{
 	}
 	Matrix operator*(Matrix C){
 		if(column==C.row){
-			Matrix rslt(row, C.column);
-			for(int i=0; i<rslt.size; i++){
-				rslt.matrix[i]=0;
-				for(int j=0; j<column; j++){
-					rslt.matrix[i] += matrix[j*row+i]*C(i,j);
+			Matrix rslt(row, C.column); for(int i=0; i<rslt.size; i++){ rslt.matrix[i]=0; }
+			for(int i=0; i<row; i++){
+				for(int j=0; j<C.column; j++){
+					for(int k=0; k<column; k++){
+						rslt.matrix[i*C.column + j] += matrix[i*column + k]*C.matrix[k*C.column + j];
+					}
 				}
 			}
 			return rslt;
