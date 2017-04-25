@@ -1,0 +1,215 @@
+# matrixobject
+the matrix object that you have implemented in class
+
+#include <iostream>
+using namespace std;
+
+template <typename data>
+class Matrix
+{
+	// constructor
+	Matrix(int m, int n)
+	{
+		elements = new data[m,n];
+		setRow(m);
+		setColumn(n);
+		setElements(m,n);
+	}
+
+	// constructor
+	Matrix(int m, int n, data* d)
+	{
+		elements = new data[m,n];
+		setRow(m);
+		setColumn(n);
+		setElements(m,n,d);
+	}
+
+	// set row
+	void setRow(int r)
+	{
+		row = r;
+	}
+
+	// set column
+	void setColumn(int c)
+	{
+		column = c;
+	}
+
+	// set elements
+	void setElements(int r, int c, data* dd)
+	{
+		for (int i = 0; i < r; i++)
+		{
+			for (int j = 0; j < c; j++)
+			{
+				elements[i*c + j] = dd[i*c + j];
+			}
+		}
+	}
+
+	// set elements
+	void setElements(int r, int c)
+	{
+		for (int i = 0; i < r; i++)
+		{
+			for (int j = 0; j < c; j++)
+			{
+				elements[i*c + j] = 0;
+			}
+		}
+	}
+
+	// get row
+	int getRow()
+	{
+		return row;
+	}
+
+	// get column
+	int getColumn()
+	{
+		return column;
+	}
+
+	// get element
+	data getElement(int r, int c)
+	{
+		return elements[r*column + c];
+	}
+
+	// overload operator +=
+	void operator +=(Matrix& m)
+		{
+			// check if the matrix dimensions agree
+			if(row != m.getRow() && column != m.getColumn())
+				cout << "Matrix dimensions do not agree. Addition could not be made!" << endl;
+
+			int c = m.getColumn();
+			int r = m.getRow();
+			// add elements of the matrices
+			for (int i = 0; i < r; i++)
+			{
+				for (int j = 0; j < c; j++)
+				{
+					elements[i*c + j] += m.getElement(i,j);
+				}
+			}
+		}
+
+	// overload operator *=
+	void operator *=(Matrix& n)
+		{
+			// check if the matrix dimensions agree
+			if (column != n.getRow())
+				cout << "Matrix dimensions do not agree. Multiplication could not be made!" << endl;
+
+			int c = n.getColumn();
+			int r = n.getRow();
+
+			// multiply elements of the matrices
+			for (int i = 0; i < r; i++)
+			{
+				for (int j = 0; j < c; j++)
+				{
+					elements[i*c + j] *= n.getElement(i,j);
+				}
+			}
+		}
+
+	// overload operator *
+	Matrix operator *(Matrix& n, Matrix& m)
+		{
+
+			int cn = n.getColumn();
+			int rn = n.getRow();
+			int cm = m.getColumn();
+			int rm = m.getRow();
+
+			// check if the matrix dimensions agree
+			if (cn != rm)
+				cout << "Matrix dimensions do not agree. Multiplication could not be made!" << endl;
+
+			// create new matrix to hold the new elements
+			Matrix<int> newMatrix(rn,cm);
+
+			// multiply elements of the two matrices
+			for (int i = 0; i < cm; i++)
+			{
+				for (int j = 0; j < rn; j++)
+				{
+					elements[i*rn + j] = n.getElement(i,j);
+				}
+			}
+
+			return newMatrix;
+		}
+
+	// overload operator ()
+	data operator()(int r, int c)
+	{
+		return elements[r*column + c];
+	}
+
+	// print the matrix
+	void print()
+	{
+		for (int i = 0; i < column; i++)
+		{
+			for (int j = 0; j < row; j++)
+			{
+				cout << elements[i*row + j] << " ";
+			}
+
+			cout << "\n";
+		}
+	}
+
+	// destructor
+	~Matrix()
+	{
+		delete[] elements;
+	}
+
+
+private:
+
+	// vector template to hold the data, not a good practice
+	//vector<vector<data> > v();
+
+	// data to hold the matrix elements
+	data* elements;
+
+	// number of rows
+	int row;
+
+	// number of columns
+	int column;
+
+};
+
+
+
+int main()
+{
+
+
+	int D[8] = {1,2,3,4,5,6,7,8};
+	int H[8] = {3,45,23,5,4,6,2,3};
+
+	Matrix<int> A(5,3,&D);
+	Matrix<int> B(5,3);
+
+	// print matrix
+	A.print();
+
+	// element of matrix
+	cout << "A(3,2) = " << A(3,2) << endl;
+
+	// add two matrices
+	A+=B;
+	A.print();
+
+}
+
